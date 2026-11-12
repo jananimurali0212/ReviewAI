@@ -11,6 +11,14 @@ export type SupportedLanguage =
   | 'rust'
   | 'php'
   | 'csharp'
+  | 'ruby'
+  | 'kotlin'
+  | 'swift'
+  | 'dart'
+  | 'r'
+  | 'scala'
+  | 'perl'
+  | 'lua'
   | 'html'
   | 'css'
   | 'sql';
@@ -34,3 +42,45 @@ export interface ReviewHistoryItem {
   criticalIssues: number;
 }
 
+export interface CodeSubmitPayload {
+  code: string;
+  language: string;
+  filename?: string;
+  language_detected?: boolean;
+  submission_type?: 'paste' | 'file_upload' | 'github';
+  metadata?: Record<string, unknown>;
+}
+
+export interface CodeSubmitResult {
+  success: boolean;
+  filename: string;
+  language: string;
+  language_detected: boolean;
+  message: string;
+  code_length: number;
+  lines_count?: number;
+  submission_id?: string;
+  created_at?: string;
+}
+
+export interface LanguageDetectPayload {
+  code?: string;
+  filename?: string;
+}
+
+export interface LanguageCandidate {
+  language: string;
+  name: string;
+  confidence: number;
+}
+
+export interface LanguageDetectResult {
+  detected_language: SupportedLanguage | null;
+  language_name: string | null;
+  confidence: number;
+  is_reliable: boolean;
+  requires_manual_selection: boolean;
+  detection_source: 'extension' | 'content' | 'shebang' | 'extension_content_hybrid' | 'none';
+  alternatives: LanguageCandidate[];
+  message: string;
+}

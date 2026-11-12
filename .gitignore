@@ -43,3 +43,6 @@ pnpm-debug.log*
 lerna-debug.log*
 *.log
 *.tsbuildinfo
+
+# Testing
+.pytest_cache/

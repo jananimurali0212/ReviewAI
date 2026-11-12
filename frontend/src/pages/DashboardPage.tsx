@@ -34,7 +34,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               Code Intelligence & Security Platform
             </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
-              ReviewAI automatically analyzes code across 13 programming languages to uncover logic flaws, 
+              ReviewAI automatically analyzes code across 21 programming languages to uncover logic flaws, 
               performance bottlenecks, and security vulnerabilities with surgical precision.
             </p>
           </div>
@@ -223,7 +223,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               {[
                 'Python', 'Java', 'C', 'C++', 'JavaScript', 
                 'TypeScript', 'Go', 'Rust', 'PHP', 'C#', 
-                'HTML', 'CSS', 'SQL'
+                'Ruby', 'Kotlin', 'Swift', 'Dart', 'R',
+                'Scala', 'Perl', 'Lua', 'HTML', 'CSS', 'SQL'
               ].map((lang) => (
                 <span
                   key={lang}

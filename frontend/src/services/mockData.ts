@@ -1,8 +1,7 @@
 import { ReviewHistoryItem, LanguageOption } from '../types';
 
 /**
- * PLACEHOLDER / MOCK DATA FOR DAY 1 UI
- * Note: Real dynamic analysis and backend persistence will replace these in subsequent phases.
+ * PLACEHOLDER / MOCK DATA FOR REVIEWAI UI
  */
 
 export const MOCK_DASHBOARD_METRICS = {
@@ -135,38 +134,6 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 `,
   },
   {
-    id: 'typescript',
-    name: 'TypeScript',
-    extension: '.ts',
-    monacoLang: 'typescript',
-    sampleSnippet: `interface ReviewConfig {
-  maxIssues: number;
-  strictMode: boolean;
-}
-
-export function validatePayload(data: unknown): boolean {
-  if (typeof data !== 'object' || data === null) {
-    return false;
-  }
-  return true;
-}
-`,
-  },
-  {
-    id: 'javascript',
-    name: 'JavaScript',
-    extension: '.js',
-    monacoLang: 'javascript',
-    sampleSnippet: `async function fetchUserData(userId) {
-  const response = await fetch(\`/api/users/\${userId}\`);
-  if (!response.ok) {
-    throw new Error('User not found');
-  }
-  return await response.json();
-}
-`,
-  },
-  {
     id: 'java',
     name: 'Java',
     extension: '.java',
@@ -214,6 +181,38 @@ public:
         std::cout << "Resource acquired\\n";
     }
 };
+`,
+  },
+  {
+    id: 'javascript',
+    name: 'JavaScript',
+    extension: '.js',
+    monacoLang: 'javascript',
+    sampleSnippet: `async function fetchUserData(userId) {
+  const response = await fetch(\`/api/users/\${userId}\`);
+  if (!response.ok) {
+    throw new Error('User not found');
+  }
+  return await response.json();
+}
+`,
+  },
+  {
+    id: 'typescript',
+    name: 'TypeScript',
+    extension: '.ts',
+    monacoLang: 'typescript',
+    sampleSnippet: `interface ReviewConfig {
+  maxIssues: number;
+  strictMode: boolean;
+}
+
+export function validatePayload(data: unknown): boolean {
+  if (typeof data !== 'object' || data === null) {
+    return false;
+  }
+  return true;
+}
 `,
   },
   {
@@ -284,6 +283,130 @@ namespace EnterpriseApp
 `,
   },
   {
+    id: 'ruby',
+    name: 'Ruby',
+    extension: '.rb',
+    monacoLang: 'ruby',
+    sampleSnippet: `class TaskWorker
+  attr_reader :job_id
+
+  def initialize(job_id)
+    @job_id = job_id
+  end
+
+  def execute
+    puts "Running job #{@job_id}"
+  end
+end
+`,
+  },
+  {
+    id: 'kotlin',
+    name: 'Kotlin',
+    extension: '.kt',
+    monacoLang: 'kotlin',
+    sampleSnippet: `package com.reviewai.core
+
+data class ReviewResult(val id: String, val score: Double)
+
+fun analyzeCode(input: String): ReviewResult {
+    return ReviewResult("rev-1", 95.0)
+}
+`,
+  },
+  {
+    id: 'swift',
+    name: 'Swift',
+    extension: '.swift',
+    monacoLang: 'swift',
+    sampleSnippet: `import Foundation
+
+struct UserSession {
+    let sessionId: UUID
+    let username: String
+    
+    func isActive() -> Bool {
+        return true
+    }
+}
+`,
+  },
+  {
+    id: 'dart',
+    name: 'Dart',
+    extension: '.dart',
+    monacoLang: 'dart',
+    sampleSnippet: `void main() {
+  final greeting = 'Hello, ReviewAI!';
+  print(greeting);
+}
+
+class ItemService {
+  final List<String> _items = [];
+  void addItem(String item) => _items.add(item);
+}
+`,
+  },
+  {
+    id: 'r',
+    name: 'R',
+    extension: '.r',
+    monacoLang: 'r',
+    sampleSnippet: `calculate_summary <- function(data_vector) {
+  mean_val <- mean(data_vector, na.rm = TRUE)
+  sd_val <- sd(data_vector, na.rm = TRUE)
+  return(list(mean = mean_val, sd = sd_val))
+}
+`,
+  },
+  {
+    id: 'scala',
+    name: 'Scala',
+    extension: '.scala',
+    monacoLang: 'scala',
+    sampleSnippet: `package com.reviewai.analytics
+
+case class LogEntry(timestamp: Long, message: String)
+
+object LogProcessor {
+  def filterErrors(entries: List[LogEntry]): List[LogEntry] = {
+    entries.filter(_.message.contains("ERROR"))
+  }
+}
+`,
+  },
+  {
+    id: 'perl',
+    name: 'Perl',
+    extension: '.pl',
+    monacoLang: 'perl',
+    sampleSnippet: `#!/usr/bin/perl
+use strict;
+use warnings;
+
+sub process_record {
+    my ($record_id) = @_;
+    print "Processing record: $record_id\\n";
+    return 1;
+}
+`,
+  },
+  {
+    id: 'lua',
+    name: 'Lua',
+    extension: '.lua',
+    monacoLang: 'lua',
+    sampleSnippet: `local function calculate_discount(price, rate)
+    if rate > 1.0 or rate < 0.0 then
+        return price
+    end
+    return price * (1.0 - rate)
+end
+
+print(calculate_discount(100, 0.15))
+`,
+  },
+  {
     id: 'html',
     name: 'HTML',
     extension: '.html',
@@ -333,4 +456,3 @@ ORDER BY total_reviews DESC;
 `,
   },
 ];
-
