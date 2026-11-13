@@ -177,3 +177,4 @@ def validate_and_sanitize_findings(
         validated_findings.append(finding)
 
     return validated_findings
+

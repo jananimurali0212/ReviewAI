@@ -148,3 +148,4 @@ class GeminiClient:
                 raise
             logger.error("Unexpected error contacting Gemini API: %s", str(exc))
             raise GeminiError(f"Failed to communicate with Gemini AI: {str(exc)}") from exc
+

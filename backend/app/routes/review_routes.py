@@ -17,3 +17,4 @@ router = APIRouter(tags=["AI Code Review Engine"])
 def analyze_code_review(payload: ReviewAnalyzeRequest) -> ReviewReport:
     """Executes full code review and returns a structured findings report."""
     return execute_code_review(payload)
+

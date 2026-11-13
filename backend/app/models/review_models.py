@@ -69,3 +69,4 @@ class ReviewReport(BaseModel):
     analyzed_at: str = Field(..., description="ISO 8601 timestamp of analysis")
     duration_ms: Optional[int] = Field(default=None, description="Time taken to process in milliseconds")
     status: Literal["completed", "warning", "failed"] = Field(default="completed")
+
