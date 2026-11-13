@@ -7,6 +7,15 @@ from .code_models import (
     LanguageCandidate,
     SupportedLanguageItem,
 )
+from .review_models import (
+    ReviewAnalyzeRequest,
+    ReviewReport,
+    ReviewFinding,
+    ReviewSeverityBreakdown,
+    SeverityLevel,
+    FindingCategory,
+    ConfidenceLevel,
+)
 
 __all__ = [
     "CodeSubmitRequest",
@@ -15,4 +24,11 @@ __all__ = [
     "LanguageDetectResponse",
     "LanguageCandidate",
     "SupportedLanguageItem",
+    "ReviewAnalyzeRequest",
+    "ReviewReport",
+    "ReviewFinding",
+    "ReviewSeverityBreakdown",
+    "SeverityLevel",
+    "FindingCategory",
+    "ConfidenceLevel",
 ]

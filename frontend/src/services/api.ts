@@ -5,7 +5,9 @@ import {
   CodeSubmitPayload, 
   CodeSubmitResult, 
   LanguageDetectPayload, 
-  LanguageDetectResult 
+  LanguageDetectResult,
+  ReviewAnalyzePayload,
+  ReviewReport,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
@@ -83,6 +85,34 @@ export const submitCodeApi = async (
     return await response.json();
   } catch (error) {
     console.error('Code submission API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Requests deep multi-language AI code review analysis from Gemini.
+ */
+export const analyzeCodeReviewApi = async (
+  payload: ReviewAnalyzePayload
+): Promise<ReviewReport> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/analyze`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      const message = errData.detail || `AI code review failed with status: ${response.status}`;
+      throw new Error(message);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('AI code review API error:', error);
     throw error;
   }
 };

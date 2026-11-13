@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config.settings import settings
 from .routes.health import router as health_router
 from .routes.code_routes import router as code_router
+from .routes.review_routes import router as review_router
 
 app = FastAPI(
     title="ReviewAI Backend API",
@@ -26,9 +27,13 @@ app.include_router(health_router)
 # Mount Code Submission & Language Detection endpoints
 app.include_router(code_router, prefix="/api/code")
 
+# Mount AI Code Review endpoints
+app.include_router(review_router, prefix="/api/reviews")
+
 # Mount API routes under /api/v1 prefix as well for clean future routing
 app.include_router(health_router, prefix=settings.API_V1_STR)
 app.include_router(code_router, prefix=f"{settings.API_V1_STR}/code")
+app.include_router(review_router, prefix=f"{settings.API_V1_STR}/reviews")
 
 @app.get("/")
 async def root():
@@ -36,7 +41,8 @@ async def root():
         "message": "Welcome to ReviewAI API",
         "docs_url": "/docs",
         "health": "/health",
-        "code_api": "/api/code"
+        "code_api": "/api/code",
+        "review_api": "/api/reviews"
     }
 
 if __name__ == "__main__":

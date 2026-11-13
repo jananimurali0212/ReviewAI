@@ -244,15 +244,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
             <ul className="space-y-2 text-xs">
               <li className="flex items-center gap-2 text-emerald-400 font-medium">
                 <CheckCircle2 className="h-3.5 w-3.5" />
-                <span>Day 1: UI Foundation & Monaco Editor (Active)</span>
+                <span>Day 1: UI Foundation & Monaco Editor (Completed)</span>
               </li>
-              <li className="flex items-center gap-2 text-slate-400">
-                <Clock className="h-3.5 w-3.5" />
-                <span>Day 2: AI Prompting & Language Detection</span>
+              <li className="flex items-center gap-2 text-emerald-400 font-medium">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Day 2: Code Submission & Language Detection (Completed)</span>
               </li>
-              <li className="flex items-center gap-2 text-slate-400">
-                <Clock className="h-3.5 w-3.5" />
-                <span>Day 3: Static Analysis & Security Rules</span>
+              <li className="flex items-center gap-2 text-emerald-400 font-medium">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Day 3: Gemini AI Code Review Engine (Active)</span>
               </li>
               <li className="flex items-center gap-2 text-slate-400">
                 <Clock className="h-3.5 w-3.5" />

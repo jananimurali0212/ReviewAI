@@ -10,6 +10,8 @@ from .language_registry import (
 )
 from .language_detector import detect_language
 from .code_submission import process_code_submission
+from .review_engine import execute_code_review
+from .finding_validator import validate_and_sanitize_findings
 
 __all__ = [
     "LANGUAGE_DEFINITIONS",
@@ -21,4 +23,6 @@ __all__ = [
     "all_languages",
     "detect_language",
     "process_code_submission",
+    "execute_code_review",
+    "validate_and_sanitize_findings",
 ]

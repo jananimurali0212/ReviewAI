@@ -84,3 +84,53 @@ export interface LanguageDetectResult {
   alternatives: LanguageCandidate[];
   message: string;
 }
+
+
+export type SeverityLevel = 'critical' | 'high' | 'medium' | 'low' | 'info';
+export type FindingCategory = 'correctness' | 'security' | 'performance' | 'maintainability' | 'style';
+export type ConfidenceLevel = 'low' | 'medium' | 'high';
+
+export interface ReviewFinding {
+  id: string;
+  title: string;
+  category: FindingCategory;
+  severity: SeverityLevel;
+  file: string;
+  start_line: number;
+  end_line: number;
+  evidence: string;
+  explanation: string;
+  recommendation: string;
+  confidence: ConfidenceLevel;
+  source: string;
+}
+
+export interface ReviewSeverityBreakdown {
+  critical: number;
+  high: number;
+  medium: number;
+  low: number;
+  info: number;
+}
+
+export interface ReviewReport {
+  id: string;
+  file: string;
+  language: string;
+  model: string;
+  summary: string;
+  total_findings: number;
+  severity_breakdown: ReviewSeverityBreakdown;
+  findings: ReviewFinding[];
+  positive_observations: string[];
+  general_recommendations: string[];
+  analyzed_at: string;
+  duration_ms?: number;
+  status: 'completed' | 'warning' | 'failed';
+}
+
+export interface ReviewAnalyzePayload {
+  code: string;
+  language: string;
+  filename?: string;
+}
