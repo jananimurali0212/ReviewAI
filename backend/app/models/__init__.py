@@ -15,6 +15,12 @@ from .review_models import (
     SeverityLevel,
     FindingCategory,
     ConfidenceLevel,
+    FindingSource,
+    SuggestedFix,
+    SuggestFixRequest,
+    ApplyFixRequest,
+    ApplyFixResponse,
+    RejectFixRequest,
 )
 
 __all__ = [
@@ -31,4 +37,10 @@ __all__ = [
     "SeverityLevel",
     "FindingCategory",
     "ConfidenceLevel",
+    "FindingSource",
+    "SuggestedFix",
+    "SuggestFixRequest",
+    "ApplyFixRequest",
+    "ApplyFixResponse",
+    "RejectFixRequest",
 ]

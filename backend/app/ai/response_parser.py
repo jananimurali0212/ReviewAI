@@ -30,6 +30,10 @@ def extract_json_payload(raw_text: str) -> str:
     return cleaned
 
 
+# Alias for compatibility with fix generator and tooling
+strip_markdown_fences = extract_json_payload
+
+
 def parse_review_response(raw_text: str) -> Dict[str, Any]:
     """Parses raw Gemini text into a sanitized review data dictionary.
     
@@ -51,32 +55,28 @@ def parse_review_response(raw_text: str) -> Dict[str, Any]:
 
     if not isinstance(data, dict):
         raise ResponseParsingError(
-            f"Expected a top-level JSON dictionary from model, got {type(data).__name__}."
+            f"Expected a JSON object at the root level, but got {type(data).__name__}."
         )
 
-    # Sanitize and ensure standard keys exist
-    summary = str(data.get("summary") or "").strip()
-    if not summary:
-        summary = "Code review completed. No summary description was provided by the model."
-
-    raw_findings = data.get("findings")
-    if not isinstance(raw_findings, list):
-        raw_findings = []
+    # Sanitize and extract keys with defaults
+    summary = str(data.get("summary") or "Review analysis completed.")
+    findings_raw = data.get("findings")
+    if not isinstance(findings_raw, list):
+        findings_raw = []
 
     positive_obs = data.get("positive_observations")
     if not isinstance(positive_obs, list):
         positive_obs = []
-    positive_obs = [str(item).strip() for item in positive_obs if item]
+    positive_obs = [str(x) for x in positive_obs if x]
 
     general_recs = data.get("general_recommendations")
     if not isinstance(general_recs, list):
         general_recs = []
-    general_recs = [str(item).strip() for item in general_recs if item]
+    general_recs = [str(x) for x in general_recs if x]
 
     return {
         "summary": summary,
-        "findings": raw_findings,
+        "findings": findings_raw,
         "positive_observations": positive_obs,
         "general_recommendations": general_recs,
     }
-

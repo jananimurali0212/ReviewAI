@@ -252,11 +252,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               </li>
               <li className="flex items-center gap-2 text-emerald-400 font-medium">
                 <CheckCircle2 className="h-3.5 w-3.5" />
-                <span>Day 3: Gemini AI Code Review Engine (Active)</span>
+                <span>Day 3: Gemini AI Code Review Engine (Completed)</span>
               </li>
-              <li className="flex items-center gap-2 text-slate-400">
-                <Clock className="h-3.5 w-3.5" />
-                <span>Day 4: History Database & Analytics</span>
+              <li className="flex items-center gap-2 text-purple-400 font-medium">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Day 4: Static Analysis & Intelligent Fix Suggestions (Active)</span>
               </li>
               <li className="flex items-center gap-2 text-slate-400">
                 <Clock className="h-3.5 w-3.5" />

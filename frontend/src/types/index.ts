@@ -85,10 +85,12 @@ export interface LanguageDetectResult {
   message: string;
 }
 
+// --- Day 3 & Day 4 Review & Static Analysis Types ---
 
 export type SeverityLevel = 'critical' | 'high' | 'medium' | 'low' | 'info';
 export type FindingCategory = 'correctness' | 'security' | 'performance' | 'maintainability' | 'style';
 export type ConfidenceLevel = 'low' | 'medium' | 'high';
+export type FindingSource = 'ai' | 'static' | 'ai_and_static' | 'gemini_ai';
 
 export interface ReviewFinding {
   id: string;
@@ -102,7 +104,11 @@ export interface ReviewFinding {
   explanation: string;
   recommendation: string;
   confidence: ConfidenceLevel;
-  source: string;
+  source: FindingSource | string;
+  analyzer_name?: string;
+  rule_id?: string;
+  fix_available?: boolean;
+  merged_sources?: string[];
 }
 
 export interface ReviewSeverityBreakdown {
@@ -127,10 +133,64 @@ export interface ReviewReport {
   analyzed_at: string;
   duration_ms?: number;
   status: 'completed' | 'warning' | 'failed';
+  ai_findings_count: number;
+  static_findings_count: number;
+  combined_findings_count: number;
+  analyzers_executed: string[];
+  analyzer_errors?: Record<string, string>;
 }
 
 export interface ReviewAnalyzePayload {
   code: string;
   language: string;
   filename?: string;
+  mode?: 'combined' | 'ai_only' | 'static_only';
+}
+
+// --- Day 4 Intelligent Fix Types ---
+
+export interface SuggestedFix {
+  finding_id: string;
+  file: string;
+  start_line: number;
+  end_line: number;
+  original_code: string;
+  replacement_code: string;
+  explanation: string;
+  diff?: string;
+  applied?: boolean;
+}
+
+export interface SuggestFixPayload {
+  finding_id: string;
+  code: string;
+  language: string;
+  filename?: string;
+  finding?: ReviewFinding;
+}
+
+export interface ApplyFixPayload {
+  code: string;
+  fix: SuggestedFix;
+  filename?: string;
+}
+
+export interface ApplyFixResponse {
+  success: boolean;
+  updated_code: string;
+  message: string;
+  lines_affected: number;
+  undo_available: boolean;
+}
+
+export interface RejectFixPayload {
+  finding_id: string;
+  reason?: string;
+}
+
+export interface AnalyzerToolStatus {
+  name: string;
+  supported_languages: string[];
+  available: boolean;
+  version: string;
 }

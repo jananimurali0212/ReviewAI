@@ -8,6 +8,12 @@ import {
   LanguageDetectResult,
   ReviewAnalyzePayload,
   ReviewReport,
+  SuggestedFix,
+  SuggestFixPayload,
+  ApplyFixPayload,
+  ApplyFixResponse,
+  RejectFixPayload,
+  AnalyzerToolStatus,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
@@ -90,7 +96,7 @@ export const submitCodeApi = async (
 };
 
 /**
- * Requests deep multi-language AI code review analysis from Gemini.
+ * Requests deep code review analysis from combined AI and static analyzers.
  */
 export const analyzeCodeReviewApi = async (
   payload: ReviewAnalyzePayload
@@ -106,13 +112,146 @@ export const analyzeCodeReviewApi = async (
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
-      const message = errData.detail || `AI code review failed with status: ${response.status}`;
+      let message = errData.detail || `Analysis failed (${response.status})`;
+      
+      if (response.status === 429) {
+        message = 'Gemini AI rate limit reached. Please wait a moment and try again.';
+      } else if (response.status === 504) {
+        message = 'Review analysis timed out. Try submitting a smaller code snippet.';
+      } else if (response.status === 401) {
+        message = 'Gemini API authentication failed. Please verify the API key in backend/.env.';
+      }
+      
       throw new Error(message);
     }
 
     return await response.json();
   } catch (error) {
-    console.error('AI code review API error:', error);
+    console.error('Code review API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Executes static code analysis only (Ruff, Bandit, ESLint) without calling AI.
+ */
+export const analyzeStaticOnlyApi = async (
+  payload: ReviewAnalyzePayload
+): Promise<ReviewReport> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/static-analysis`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.detail || `Static analysis failed (${response.status})`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Static analysis API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Generates an intelligent, minimal fix suggestion for a finding.
+ */
+export const suggestFixApi = async (
+  payload: SuggestFixPayload
+): Promise<SuggestedFix> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/suggest-fix`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.detail || `Failed to generate fix suggestion (${response.status})`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Suggest fix API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Applies a developer-approved patch to the source code with stale patch validation.
+ */
+export const applyFixApi = async (
+  payload: ApplyFixPayload
+): Promise<ApplyFixResponse> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/apply-fix`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.detail || `Failed to apply fix (${response.status})`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Apply fix API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Records user rejection of a proposed fix suggestion.
+ */
+export const rejectFixApi = async (
+  payload: RejectFixPayload
+): Promise<{ finding_id: string; status: string; reason: string }> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/reject-fix`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.detail || `Failed to record rejection (${response.status})`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Reject fix API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Fetches status of all registered static analysis tools on the system.
+ */
+export const fetchAnalyzersStatusApi = async (): Promise<{ status: string; tools: Record<string, AnalyzerToolStatus> }> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/analyzers`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch analyzer status (${response.status})`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Fetch analyzer status error:', error);
     throw error;
   }
 };
